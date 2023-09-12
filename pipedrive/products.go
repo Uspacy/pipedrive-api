@@ -71,6 +71,25 @@ type ProductAttachedDealsResponse struct {
 	AdditionalData AdditionalData `json:"additional_data,omitempty"`
 }
 
+// List returns total count products
+func (s *ProductsService) Summary(ctx context.Context) (*Summary, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "/products/summary", nil, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *Summary
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
+
 // GetAttachedDeals returns product attached deals.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Products/get_products_id_deals
