@@ -141,6 +141,42 @@ type DealResponse struct {
 	AdditionalData AdditionalData `json:"additional_data,omitempty"`
 }
 
+// DealResponse represents single deal response.
+type DealResponse struct {
+	Success        bool           `json:"success,omitempty"`
+	Data           Deal           `json:"data,omitempty"`
+	AdditionalData AdditionalData `json:"additional_data,omitempty"`
+}
+
+type DealReasonsResponses struct {
+	Success        bool        `json:"success"`
+	Data           Reasons     `json:"data"`
+	AdditionalData interface{} `json:"additional_data"`
+}
+
+type Reasons struct {
+	ID              int              `json:"id"`
+	FieldType       string           `json:"field_type"`
+	FieldCode       string           `json:"field_code"`
+	FieldName       string           `json:"field_name"`
+	CustomFieldFlag bool             `json:"custom_field_flag"`
+	JSONColumnFlag  bool             `json:"json_column_flag"`
+	ActiveFlag      bool             `json:"active_flag"`
+	AdditionalData  AdditionalData   `json:"additional_data"`
+	OrderNr         int              `json:"order_nr"`
+	AddTime         string           `json:"add_time"`
+	UpdateTime      string           `json:"update_time"`
+	UpdatedBy       int              `json:"updated_by"`
+	GroupID         interface{}      `json:"group_id"`
+	Options         []ReasonsOptions `json:"options"`
+}
+
+type ReasonsOptions struct {
+	ID      int    `json:"id"`
+	Label   string `json:"label"`
+	OrderNr int    `json:"order_nr"`
+}
+
 // List returns total count deals
 func (s *DealService) DealLostReasons(ctx context.Context) (*DealReasonsResponses, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "fields/deal/lost_reason", nil, nil)
