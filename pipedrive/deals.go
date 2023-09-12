@@ -141,13 +141,6 @@ type DealResponse struct {
 	AdditionalData AdditionalData `json:"additional_data,omitempty"`
 }
 
-// DealResponse represents single deal response.
-type DealResponse struct {
-	Success        bool           `json:"success,omitempty"`
-	Data           Deal           `json:"data,omitempty"`
-	AdditionalData AdditionalData `json:"additional_data,omitempty"`
-}
-
 type DealReasonsResponses struct {
 	Success        bool        `json:"success"`
 	Data           Reasons     `json:"data"`
