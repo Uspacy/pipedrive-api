@@ -107,11 +107,40 @@ type PersonAddFollowerResponse struct {
 	} `json:"data"`
 }
 
+// List returns total count persons
+func (s *PersonsService) Summary(ctx context.Context) (*Summary, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "/persons/summary", nil, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *Summary
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
+
 // List all persons.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Persons/get_persons
-func (s *PersonsService) List(ctx context.Context) (*PersonsRespose, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "/persons", nil, nil)
+func (s *PersonsService) List(ctx context.Context, opts PaginationParameters) (*PersonsRespose, *Response, error) {
+	var (
+		err error
+		req *http.Request
+	)
+
+	switch {
+	case opts.Start > 0 || opts.Limit > 0:
+		req, err = s.client.NewRequest(http.MethodGet, "/persons", &opts, nil)
+	default:
+		req, err = s.client.NewRequest(http.MethodGet, "/persons", nil, nil)
+	}
 
 	if err != nil {
 		return nil, nil, err

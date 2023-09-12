@@ -19,6 +19,7 @@ type Note struct {
 	DealID                   int       `json:"deal_id,omitempty"`
 	PersonID                 int       `json:"person_id,omitempty"`
 	OrgID                    int       `json:"org_id,omitempty"`
+	LeadID                   int       `json:"lead_id,omitempty"`
 	Content                  string    `json:"content,omitempty"`
 	AddTime                  Timestamp `json:"add_time,omitempty"`
 	UpdateTime               Timestamp `json:"update_time,omitempty"`
@@ -49,9 +50,19 @@ type NoteResponse struct {
 // List returns notes.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Notes/get_notes
-func (s *NotesService) List(ctx context.Context) (*NotesResponse, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "/notes", nil, nil)
+func (s *NotesService) List(ctx context.Context, opts PaginationParameters) (*NotesResponse, *Response, error) {
 
+	var (
+		err error
+		req *http.Request
+	)
+
+	switch {
+	case opts.Start > 0 || opts.Limit > 0:
+		req, err = s.client.NewRequest(http.MethodGet, "/notes", &opts, nil)
+	default:
+		req, err = s.client.NewRequest(http.MethodGet, "/notes", nil, nil)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
