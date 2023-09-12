@@ -156,6 +156,25 @@ type UserCreateOptions struct {
 	ActiveFlag uint8  `url:"active_flag"`
 }
 
+// List returns data about all Roles within the company.
+func (s *UsersService) Roles(ctx context.Context) (*Roles, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "/roles", nil, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *Roles
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
+
 // Create a user.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Users/post_users

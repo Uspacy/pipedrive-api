@@ -23,7 +23,8 @@ type File struct {
 	DealID         int         `json:"deal_id"`
 	PersonID       int         `json:"person_id"`
 	OrgID          int         `json:"org_id"`
-	ProductID      interface{} `json:"product_id"`
+	ProductID      int         `json:"product_id"`
+	LeadID         int         `json:"lead_id"`
 	EmailMessageID interface{} `json:"email_message_id"`
 	ActivityID     interface{} `json:"activity_id"`
 	NoteID         interface{} `json:"note_id"`

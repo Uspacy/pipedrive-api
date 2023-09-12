@@ -142,6 +142,25 @@ type DealResponse struct {
 }
 
 // List returns total count deals
+func (s *DealService) DealLostReasons(ctx context.Context) (*DealReasonsResponses, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "fields/deal/lost_reason", nil, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *DealReasonsResponses
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
+
+// List returns total count deals
 func (s *DealService) Summary(ctx context.Context) (*Summary, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "/deals/summary", nil, nil)
 
