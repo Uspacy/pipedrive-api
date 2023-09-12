@@ -126,3 +126,24 @@ const (
 type SearchOptions struct {
 	Term string `url:"term,omitempty"`
 }
+
+type Summary struct {
+	Success bool  `json:"success"`
+	Data    Total `json:"data"`
+}
+type Total struct {
+	Counters   Counters `json:"counters,omitempty"`
+	TotalCount int      `json:"total_count"`
+}
+
+type Counters struct {
+	UpcomingCount int `json:"upcoming_count,omitempty"`
+	OverdueCount  int `json:"overdue_count,omitempty"`
+	TodayCount    int `json:"today_count,omitempty"`
+	DoneCount     int `json:"done_count,omitempty"`
+}
+type PaginationParameters struct {
+	Start  int    `url:"start,omitempty"`
+	Cursor string `url:"cursor,omitempty"`
+	Limit  int    `url:"limit"`
+}

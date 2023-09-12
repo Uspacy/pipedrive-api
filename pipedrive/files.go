@@ -70,8 +70,18 @@ type FilesResponse struct {
 // List all files.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Files/get_files
-func (s *FilesService) List(ctx context.Context) (*FilesResponse, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "/files", nil, nil)
+func (s *FilesService) List(ctx context.Context, opts PaginationParameters) (*FilesResponse, *Response, error) {
+	var (
+		err error
+		req *http.Request
+	)
+
+	switch {
+	case opts.Start > 0 || opts.Limit > 0:
+		req, err = s.client.NewRequest(http.MethodGet, "/files", &opts, nil)
+	default:
+		req, err = s.client.NewRequest(http.MethodGet, "/files", nil, nil)
+	}
 
 	if err != nil {
 		return nil, nil, err

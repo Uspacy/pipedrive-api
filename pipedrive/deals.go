@@ -141,6 +141,25 @@ type DealResponse struct {
 	AdditionalData AdditionalData `json:"additional_data,omitempty"`
 }
 
+// List returns total count deals
+func (s *DealService) Summary(ctx context.Context) (*Summary, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "/deals/summary", nil, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *Summary
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
+
 // ListUpdates about a deal.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Deals/get_deals_id_flow
@@ -194,17 +213,17 @@ type FilterOptions struct {
 // List deals.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Deals/get_deals
-func (s *DealService) List(ctx context.Context, filterID int) (*DealsResponse, *Response, error) {
-	var err error
-	var req *http.Request
-	if filterID > 0 {
-		req, err = s.client.NewRequest(http.MethodGet, "/deals", &FilterOptions{
-			FilterID: filterID,
-			Status:   "all_not_deleted",
-		}, nil)
-	} else {
-		req, err = s.client.NewRequest(http.MethodGet, "/deals", nil, nil)
+func (s *DealService) List(ctx context.Context, opts PaginationParameters) (*DealsResponse, *Response, error) {
+	var (
+		err error
+		req *http.Request
+	)
 
+	switch {
+	case opts.Start > 0 || opts.Limit > 0:
+		req, err = s.client.NewRequest(http.MethodGet, "/deals", &opts, nil)
+	default:
+		req, err = s.client.NewRequest(http.MethodGet, "/deals", nil, nil)
 	}
 
 	if err != nil {

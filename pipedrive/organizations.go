@@ -92,11 +92,40 @@ type OrganizationResponse struct {
 	AdditionalData AdditionalData `json:"additional_data,omitempty"`
 }
 
+// List returns total count organizations
+func (s *OrganizationsService) Summary(ctx context.Context) (*Summary, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "/organizations/summary", nil, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *Summary
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
+
 // List all organizations.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Organizations/get_organizations
-func (s *OrganizationsService) List(ctx context.Context) (*OrganizationsResponse, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "/organizations", nil, nil)
+func (s *OrganizationsService) List(ctx context.Context, opts PaginationParameters) (*OrganizationsResponse, *Response, error) {
+	var (
+		err error
+		req *http.Request
+	)
+
+	switch {
+	case opts.Start > 0 || opts.Limit > 0:
+		req, err = s.client.NewRequest(http.MethodGet, "/organizations", &opts, nil)
+	default:
+		req, err = s.client.NewRequest(http.MethodGet, "/organizations", nil, nil)
+	}
 
 	if err != nil {
 		return nil, nil, err

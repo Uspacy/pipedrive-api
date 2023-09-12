@@ -43,7 +43,7 @@ type Client struct {
 	// set to a domain endpoint to use. BaseURL should
 	// always be specified with a trailing slash.
 	BaseURL *url.URL
-	apiKey  string
+	ApiKey  string
 
 	rateMutex   sync.Mutex
 	currentRate Rate
@@ -271,7 +271,7 @@ func (c *Client) createRequestUrl(path string, opt interface{}) (string, error) 
 
 	if v.Kind() == reflect.Ptr && v.IsNil() {
 		parameters := url.Values{}
-		parameters.Add("api_token", c.apiKey)
+		parameters.Add("api_token", c.ApiKey)
 
 		uri.RawQuery = parameters.Encode()
 
@@ -284,7 +284,7 @@ func (c *Client) createRequestUrl(path string, opt interface{}) (string, error) 
 		return path, err
 	}
 
-	qs.Add("api_token", c.apiKey)
+	qs.Add("api_token", c.ApiKey)
 
 	uri.RawQuery = qs.Encode()
 
@@ -307,7 +307,7 @@ func NewClient(options *Config) *Client {
 	c := &Client{
 		client:  http.DefaultClient,
 		BaseURL: baseURL,
-		apiKey:  options.APIKey,
+		ApiKey:  options.APIKey,
 	}
 
 	c.common.client = c
