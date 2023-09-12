@@ -90,6 +90,20 @@ type UserPermissionsResponse struct {
 	} `json:"data"`
 }
 
+type Roles struct {
+	Success bool   `json:"success"`
+	Data    []Role `json:"data"`
+}
+type Role struct {
+	ID              int    `json:"id"`
+	ParentRoleID    int    `json:"parent_role_id"`
+	Name            string `json:"name"`
+	ActiveFlag      bool   `json:"active_flag"`
+	AssignmentCount string `json:"assignment_count"`
+	SubRoleCount    string `json:"sub_role_count"`
+	Level           int    `json:"level"`
+}
+
 // UserRoleSettingsResponse represents user role settings response.
 type UserRoleSettingsResponse struct {
 	Success bool `json:"success"`
