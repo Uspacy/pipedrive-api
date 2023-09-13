@@ -172,7 +172,7 @@ type ReasonsOptions struct {
 
 // List returns total count deals
 func (s *DealService) DealLostReasons(ctx context.Context) (*DealReasonsResponses, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "fields/deal/lost_reason", nil, nil)
+	req, err := s.client.NewRequest(http.MethodGet, "/fields/deal/lost_reason", nil, nil)
 
 	if err != nil {
 		return nil, nil, err

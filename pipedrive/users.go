@@ -34,6 +34,7 @@ type User struct {
 	RoleID              int    `json:"role_id"`
 	IconURL             string `json:"icon_url"`
 	IsYou               bool   `json:"is_you"`
+	CompanyDomain       bool   `json:"company_domain"`
 }
 
 func (u User) String() string {
