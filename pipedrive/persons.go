@@ -31,7 +31,9 @@ type Person struct {
 		ActiveFlag bool   `json:"active_flag"`
 		Value      int    `json:"value"`
 	} `json:"owner_id"`
-	OrgID                           interface{}  `json:"org_id"`
+	OrgID struct {
+		Value int `json:"value"`
+	} `json:"org_id"`
 	Name                            string       `json:"name"`
 	FirstName                       string       `json:"first_name"`
 	LastName                        string       `json:"last_name"`
