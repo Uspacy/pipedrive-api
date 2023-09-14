@@ -261,10 +261,11 @@ type FilterOptions struct {
 // List deals.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Deals/get_deals
-func (s *DealService) List(ctx context.Context, opts PaginationParameters) (*DealsResponse, *Response, error) {
+func (s *DealService) List(ctx context.Context, opts PaginationParameters) (map[string]interface{}, *Response, error) {
 	var (
 		err error
 		req *http.Request
+		f   interface{}
 	)
 
 	switch {
@@ -278,15 +279,12 @@ func (s *DealService) List(ctx context.Context, opts PaginationParameters) (*Dea
 		return nil, nil, err
 	}
 
-	var record *DealsResponse
-
-	resp, err := s.client.Do(ctx, req, &record)
-
+	resp, err := s.client.Do(ctx, req, &f)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return record, resp, nil
+	return f.(map[string]interface{}), resp, nil
 }
 
 // Duplicate a deal.
