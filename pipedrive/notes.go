@@ -14,20 +14,20 @@ type NotesService service
 
 // Note represents a Pipedrive note.
 type Note struct {
-	ID                       int       `json:"id,omitempty"`
-	UserID                   int       `json:"user_id,omitempty"`
-	DealID                   int       `json:"deal_id,omitempty"`
-	PersonID                 int       `json:"person_id,omitempty"`
-	OrgID                    int       `json:"org_id,omitempty"`
-	LeadID                   int       `json:"lead_id,omitempty"`
-	Content                  string    `json:"content,omitempty"`
-	AddTime                  Timestamp `json:"add_time,omitempty"`
-	UpdateTime               Timestamp `json:"update_time,omitempty"`
-	ActiveFlag               bool      `json:"active_flag,omitempty"`
-	PinnedToDealFlag         bool      `json:"pinned_to_deal_flag,omitempty"`
-	PinnedToPersonFlag       bool      `json:"pinned_to_person_flag,omitempty"`
-	PinnedToOrganizationFlag bool      `json:"pinned_to_organization_flag,omitempty"`
-	LastUpdateUserID         int       `json:"last_update_user_id,omitempty"`
+	ID                       int    `json:"id,omitempty"`
+	UserID                   int    `json:"user_id,omitempty"`
+	DealID                   int    `json:"deal_id,omitempty"`
+	PersonID                 int    `json:"person_id,omitempty"`
+	OrgID                    int    `json:"org_id,omitempty"`
+	LeadID                   int    `json:"lead_id,omitempty"`
+	Content                  string `json:"content,omitempty"`
+	AddTime                  string `json:"add_time,omitempty"`
+	UpdateTime               string `json:"update_time,omitempty"`
+	ActiveFlag               bool   `json:"active_flag,omitempty"`
+	PinnedToDealFlag         bool   `json:"pinned_to_deal_flag,omitempty"`
+	PinnedToPersonFlag       bool   `json:"pinned_to_person_flag,omitempty"`
+	PinnedToOrganizationFlag bool   `json:"pinned_to_organization_flag,omitempty"`
+	LastUpdateUserID         int    `json:"last_update_user_id,omitempty"`
 }
 
 func (n Note) String() string {
