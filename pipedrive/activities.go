@@ -97,28 +97,28 @@ func (s *ActivitiesService) Summary(ctx context.Context) (*Summary, *Response, e
 // List returns all activities assigned to a particular user
 //
 // https://developers.pipedrive.com/docs/api/v1/#!/Activities/get_activities
-func (s *ActivitiesService) List(ctx context.Context, opts PaginationParameters) (*ActivitiesReponse, *Response, error) {
+func (s *ActivitiesService) List(ctx context.Context, opts PaginationParameters) (map[string]interface{}, *Response, error) {
 	var (
 		err error
 		req *http.Request
+		f   interface{}
 	)
-
 	switch {
 	case opts.Limit > 0 || len(opts.Cursor) != 0:
 		req, err = s.client.NewRequest(http.MethodGet, "/activities/collection", &opts, nil)
 	default:
 		req, err = s.client.NewRequest(http.MethodGet, "/activities/collection", nil, nil)
 	}
+	if err != nil {
+		return nil, nil, err
+	}
 
-	var record *ActivitiesReponse
-
-	resp, err := s.client.Do(ctx, req, &record)
-
+	resp, err := s.client.Do(ctx, req, &f)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return record, resp, nil
+	return f.(map[string]interface{}), resp, nil
 }
 
 // GetByID returns details of a specific activity.

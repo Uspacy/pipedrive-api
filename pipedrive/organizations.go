@@ -114,12 +114,12 @@ func (s *OrganizationsService) Summary(ctx context.Context) (*Summary, *Response
 // List all organizations.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Organizations/get_organizations
-func (s *OrganizationsService) List(ctx context.Context, opts PaginationParameters) (*OrganizationsResponse, *Response, error) {
+func (s *OrganizationsService) List(ctx context.Context, opts PaginationParameters) (map[string]interface{}, *Response, error) {
 	var (
 		err error
 		req *http.Request
+		f   interface{}
 	)
-
 	switch {
 	case opts.Start > 0 || opts.Limit > 0:
 		req, err = s.client.NewRequest(http.MethodGet, "/organizations", &opts, nil)
@@ -131,15 +131,12 @@ func (s *OrganizationsService) List(ctx context.Context, opts PaginationParamete
 		return nil, nil, err
 	}
 
-	var record *OrganizationsResponse
-
-	resp, err := s.client.Do(ctx, req, &record)
-
+	resp, err := s.client.Do(ctx, req, &f)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return record, resp, nil
+	return f.(map[string]interface{}), resp, nil
 }
 
 // OrganizationUpdateOptions specifices the optional parameters to the

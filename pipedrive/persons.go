@@ -74,8 +74,6 @@ type Person struct {
 	OwnerName                       string       `json:"owner_name"`
 	CcEmail                         string       `json:"cc_email"`
 	Label                           uint         `json:"label"`
-	BillingAddress                  string       `json:"d5d6ecba25dd34146d3b9d0f1bb34dedf384143a"`
-	DeliveryAddress                 string       `json:"fb3875ae1de17d63a1a0a9a7643bb677b95ae7fb"`
 }
 
 func (p Person) String() string {
@@ -129,10 +127,11 @@ func (s *PersonsService) Summary(ctx context.Context) (*Summary, *Response, erro
 // List all persons.
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Persons/get_persons
-func (s *PersonsService) List(ctx context.Context, opts PaginationParameters) (*PersonsRespose, *Response, error) {
+func (s *PersonsService) List(ctx context.Context, opts PaginationParameters) (map[string]interface{}, *Response, error) {
 	var (
 		err error
 		req *http.Request
+		f   interface{}
 	)
 
 	switch {
@@ -146,15 +145,12 @@ func (s *PersonsService) List(ctx context.Context, opts PaginationParameters) (*
 		return nil, nil, err
 	}
 
-	var record *PersonsRespose
-
-	resp, err := s.client.Do(ctx, req, &record)
-
+	resp, err := s.client.Do(ctx, req, &f)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return record, resp, nil
+	return f.(map[string]interface{}), resp, nil
 }
 
 // AddFollower adds a follower to person.
