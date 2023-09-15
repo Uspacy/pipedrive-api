@@ -37,7 +37,7 @@ type ProductField struct {
 	MandatoryFlag      bool        `json:"mandatory_flag"`
 	DisplayField       string      `json:"display_field,omitempty"`
 	Options            []struct {
-		ID    bool   `json:"id"`
+		ID    int    `json:"id"`
 		Label string `json:"label"`
 	} `json:"options,omitempty"`
 }

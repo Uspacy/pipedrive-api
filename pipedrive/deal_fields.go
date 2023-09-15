@@ -37,7 +37,7 @@ type DealField struct {
 	MandatoryFlag      bool        `json:"mandatory_flag"`
 	IsSubfield         bool        `json:"is_subfield,omitempty"`
 	Options            []struct {
-		ID    string `json:"id"`
+		ID    int    `json:"id"`
 		Label string `json:"label"`
 	} `json:"options,omitempty"`
 	BulkEditAllowedConditions struct {
