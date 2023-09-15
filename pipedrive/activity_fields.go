@@ -30,7 +30,7 @@ type ActivityField struct {
 	BulkEditAllowed    bool        `json:"bulk_edit_allowed"`
 	MandatoryFlag      bool        `json:"mandatory_flag"`
 	Options            []struct {
-		ID    string `json:"id"`
+		ID    int    `json:"id"`
 		Label string `json:"label"`
 	} `json:"options,omitempty"`
 }
