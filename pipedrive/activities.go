@@ -24,6 +24,7 @@ type Activity struct {
 	Type                     string      `json:"type"`
 	Duration                 string      `json:"duration"`
 	Subject                  string      `json:"subject"`
+	Note                     string 	 `json:"note"`
 	CompanyID                int         `json:"company_id"`
 	UserID                   int         `json:"user_id"`
 	Done                     bool        `json:"done"`
