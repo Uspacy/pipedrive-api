@@ -24,7 +24,7 @@ type Activity struct {
 	Type                     string      `json:"type"`
 	Duration                 string      `json:"duration"`
 	Subject                  string      `json:"subject"`
-	Note                     string 	 `json:"note"`
+	Note                     string      `json:"note"`
 	CompanyID                int         `json:"company_id"`
 	UserID                   int         `json:"user_id"`
 	Done                     bool        `json:"done"`
@@ -106,7 +106,7 @@ func (s *ActivitiesService) List(ctx context.Context, opts PaginationParameters)
 	)
 	switch {
 	case opts.Limit > 0 || len(opts.Cursor) != 0:
-		req, err = s.client.NewRequest(http.MethodGet, "/activities/collection", &opts, nil)
+		req, err = s.client.NewRequest(http.MethodGet, "/activities", &opts, nil)
 	default:
 		req, err = s.client.NewRequest(http.MethodGet, "/activities/collection", nil, nil)
 	}
@@ -175,7 +175,7 @@ type ActivitiesCreateOptions struct {
 	DueTime      string      `json:"due_time,omitempty"`
 	Duration     string      `json:"duration,omitempty"`
 	UserID       uint        `json:"user_id,omitempty"`
-	DealID       uint        `json:"user_id,omitempty"`
+	DealID       uint        `json:"deal_id,omitempty"`
 	PersonID     uint        `json:"person_id,omitempty"`
 	Participants interface{} `json:"participants,omitempty"`
 	OrgID        uint        `json:"org_id,omitempty"`
