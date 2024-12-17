@@ -98,7 +98,7 @@ func (s *ActivitiesService) Summary(ctx context.Context) (*Summary, *Response, e
 // List returns all activities assigned to a particular user
 //
 // https://developers.pipedrive.com/docs/api/v1/#!/Activities/get_activities
-func (s *ActivitiesService) List(ctx context.Context, opts PaginationParameters) (map[string]interface{}, *Response, error) {
+func (s *ActivitiesService) List(ctx context.Context, opts PaginationParameters, urlParametrs map[string]string) (map[string]interface{}, *Response, error) {
 	var (
 		err error
 		req *http.Request
@@ -112,6 +112,14 @@ func (s *ActivitiesService) List(ctx context.Context, opts PaginationParameters)
 	}
 	if err != nil {
 		return nil, nil, err
+	}
+
+	if len(urlParametrs) != 0 {
+		q := req.URL.Query()
+		for key, value := range urlParametrs {
+			q.Add(key, value)
+		}
+		req.URL.RawQuery = q.Encode()
 	}
 
 	resp, err := s.client.Do(ctx, req, &f)
